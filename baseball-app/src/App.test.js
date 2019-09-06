@@ -7,7 +7,17 @@ test("Dashboard renders without crashing", () => {
   render(<Dashboard />);
 });
 
-test("Strike buttons is rendering", () => {
+test("Strike button is rendering", () => {
   const container = render(<App />);
-  container.getByText(/strikes/i);
+  container.getAllByText(/strike/i);
+});
+
+test("Ball button is rendering", () => {
+  const container = render(<App />);
+  container.getAllByText(/ball/i);
+});
+
+test("Foul button is rendering", () => {
+  const container = render(<App />);
+  container.getAllByText(/foul/i);
 });
