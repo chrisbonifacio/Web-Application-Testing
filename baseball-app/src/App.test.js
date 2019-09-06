@@ -1,5 +1,5 @@
 import React from "react";
-import App, { strikesHandler } from "./App";
+import App from "./App";
 import { render, fireEvent } from "@testing-library/react";
 import Dashboard from "./components/Dashboard";
 import Display from "./components/Display";
