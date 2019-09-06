@@ -12,51 +12,76 @@ class App extends React.Component {
     this.state = {
       score: 0,
       balls: 0,
-      strikes: 0
+      strikes: 0,
+      hits: 0
     };
   }
 
   // Handlers
-  hitHandler = e => {
+  hitsHandler = e => {
     e.preventDefault();
     this.setState({
-      balls: 0
+      balls: 0,
+      strikes: 0
     });
   };
 
   foulHandler = e => {
     e.preventDefault();
-    this.setState({
-      balls: 0
-    });
+    if (this.state.strikes === 0) {
+      this.setState({
+        strikes: this.state.strikes + 1
+      });
+    } else if (this.state.strikes === 1) {
+      this.setState({
+        strikes: this.state.strikes + 2
+      });
+    }
   };
 
-  ballHandler = e => {
+  ballsHandler = e => {
     e.preventDefault();
     this.setState({
       balls: this.state.balls + 1
     });
   };
 
-  strikeHandler = e => {
+  strikesHandler = e => {
     e.preventDefault();
-    this.state.strikes < 3
-      ? this.setState({
-          strikes: this.state.strikes + 1
-        })
-      : this.setState({ strikes: 0 });
+    this.setState({
+      strikes: this.state.strikes + 1
+    });
   };
+
+  componentDidUpdate() {
+    if (this.state.strikes === 3 || this.state.balls === 4) {
+      this.setState({
+        balls: 0,
+        strikes: 0
+      });
+    }
+  }
 
   render() {
     return (
       <div className="App">
-        <Display score={this.state.score} strikes={this.state.strikes} />
-        <Dashboard
-          hitHandler={this.hitHandler}
-          ballHandler={this.ballHandler}
-          strikeHandler={this.strikeHandler}
-          foulHandler={this.foulHandler}
-        />
+        <div className="Container">
+          <Display
+            score={this.state.score}
+            strikes={this.state.strikes}
+            balls={this.state.balls}
+            fouls={this.state.hits}
+          />
+          <Dashboard
+            hitsHandler={this.hitsHandler}
+            ballsHandler={this.ballsHandler}
+            strikesHandler={this.strikesHandler}
+            foulHandler={this.foulHandler}
+          />
+        </div>
+        {this.state.strikes === 3 && (
+          <p style={{ color: "red" }}>You struck out!</p>
+        )}
       </div>
     );
   }
