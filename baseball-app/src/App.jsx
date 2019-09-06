@@ -13,6 +13,7 @@ class App extends React.Component {
       score: 0,
       balls: 0,
       strikes: 0,
+      fouls: 0,
       hits: 0
     };
   }
@@ -28,37 +29,54 @@ class App extends React.Component {
 
   foulHandler = e => {
     e.preventDefault();
-    if (this.state.strikes === 0) {
+    if (this.state.strikes >= 2) {
       this.setState({
-        strikes: this.state.strikes + 1
+        strikes: this.state.strikes + 0,
+        fouls: this.state.fouls + 1
       });
-    } else if (this.state.strikes === 1) {
+    } else if (this.state.strikes >= 1 < 2) {
       this.setState({
-        strikes: this.state.strikes + 2
+        strikes: this.state.strikes + 1,
+        fouls: this.state.fouls + 1
       });
     }
   };
 
   ballsHandler = e => {
     e.preventDefault();
-    this.setState({
-      balls: this.state.balls + 1
-    });
+    if (this.state.balls >= 4) {
+      this.setState({
+        balls: this.state.balls
+      });
+    } else {
+      this.setState({
+        balls: this.state.balls + 1
+      });
+    }
   };
 
   strikesHandler = e => {
     e.preventDefault();
-    this.setState({
-      strikes: this.state.strikes + 1
-    });
+
+    if (this.state.strikes >= 3) {
+      this.setState({
+        strikes: this.state.strikes
+      });
+    } else {
+      this.setState({
+        strikes: this.state.strikes + 1
+      });
+    }
   };
 
   componentDidUpdate() {
     if (this.state.strikes === 3 || this.state.balls === 4) {
-      this.setState({
-        balls: 0,
-        strikes: 0
-      });
+      setTimeout(() => {
+        this.setState({
+          balls: 0,
+          strikes: 0
+        });
+      }, 2000);
     }
   }
 
@@ -79,9 +97,6 @@ class App extends React.Component {
             foulHandler={this.foulHandler}
           />
         </div>
-        {this.state.strikes === 3 && (
-          <p style={{ color: "red" }}>You struck out!</p>
-        )}
       </div>
     );
   }
