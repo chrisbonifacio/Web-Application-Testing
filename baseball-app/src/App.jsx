@@ -60,7 +60,7 @@ class App extends React.Component {
 
     if (this.state.strikes >= 3) {
       this.setState({
-        strikes: this.state.strikes
+        strikes: 0
       });
     } else {
       this.setState({
@@ -69,6 +69,7 @@ class App extends React.Component {
     }
   };
 
+  // Lifecycle Method
   componentDidUpdate() {
     if (this.state.strikes === 3 || this.state.balls === 4) {
       setTimeout(() => {
@@ -88,7 +89,7 @@ class App extends React.Component {
             score={this.state.score}
             strikes={this.state.strikes}
             balls={this.state.balls}
-            fouls={this.state.hits}
+            fouls={this.state.fouls}
           />
           <Dashboard
             hitsHandler={this.hitsHandler}
